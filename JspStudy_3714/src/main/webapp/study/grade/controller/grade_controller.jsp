@@ -35,14 +35,11 @@
 	}
 	
 	gradeAvg = score / totalTime;
-	System.out.println(gradeAvg);
-	
-	request.setAttribute("grade", gradeAvg);
 	
 	StringBuilder builder = new StringBuilder();
 	builder.append("<body>");
 	builder.append("<script>");
-	builder.append("alert(\"총 평점:" + gradeAvg + "\")");
+	builder.append("alert(\"총 평점:" + gradeAvg + "\");");
 	builder.append("history.back();");
 	builder.append("</script>");
 	builder.append("</body>");
@@ -51,7 +48,6 @@
 	out.print(builder.toString());
 %>
 
-<jsp:forward page="../view/grade_show.jsp"></jsp:forward>
 
 
 
