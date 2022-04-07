@@ -19,11 +19,8 @@
 	for(String str: select){
 		System.out.println(str);
 	}
-<<<<<<< HEAD
+	
 	int data = (Integer)request.getAttribute("data"); // 가지고올려면 업케스팅을  다운캐스팅으로 한후 가져와야한다.
-=======
-	int data = (Integer)request.getAttribute("data"); // 업케스팅을 했으면 무조건 다운캐스팅을 해야한다.
->>>>>>> 29f6c3c6d590b0a1e6f54cf249af8237b8ce0d35
 	System.out.println(data);
 	
 	User user = (User)request.getAttribute("user");
