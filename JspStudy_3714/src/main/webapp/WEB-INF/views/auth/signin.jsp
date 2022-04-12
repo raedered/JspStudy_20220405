@@ -21,11 +21,6 @@
 		height: 700px;
 	}
 	
-	.item-input{
-		
-	}
-	
-	
 </style>
 </head>
 <body>

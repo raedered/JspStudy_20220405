@@ -27,9 +27,9 @@ public class UserDao {
 		
 		try {
 			con = pool.getConnection(); //데이터베이스 연결
-			sql = "select * from user_mst where username = ?"; // 쿼리설정
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, username);	
+			sql = "select * from user_mst where username = ?"; // 데이터베이스 쿼리 입력문 설정
+			pstmt = con.prepareStatement(sql); // ? 부분 채워주는 값
+			pstmt.setString(1, username);	// 1번째 값을 String 값으로 넣는다
 			rs = pstmt.executeQuery();  // 쿼리 실행
 			
 			rs.next();
