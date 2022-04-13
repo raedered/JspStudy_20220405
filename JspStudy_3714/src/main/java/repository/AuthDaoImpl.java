@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLDataException;
+import java.sql.SQLException;
 
 import db.DBConnectionMgr;
 import repository.user.User;
@@ -97,14 +98,14 @@ public class AuthDaoImpl implements AuthDao {
 			con = pool.getConnection();
 			sql = "INSERT INTO\r\n"
 					+ "	user_mst(email, NAME, username, PASSWORD, create_date, update_date)\r\n"
-					+ "VALUES{\r\n"
+					+ "VALUES(\r\n"
 					+ "	?,\r\n"
 					+ "	?,\r\n"
 					+ "	?,\r\n"
 					+ "	?,\r\n"
 					+ "	NOW(),\r\n"
 					+ "	NOW()\r\n"
-					+ "}";
+					+ ")";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, user.getEmail());
 			pstmt.setString(2, user.getName());
@@ -119,6 +120,47 @@ public class AuthDaoImpl implements AuthDao {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public User getUserByUsername(String username) {
+		String sql = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		User user = null;
+		
+		try {
+			con = pool.getConnection();
+			sql = "select * from user_mst where username = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, username);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			try {
+				user = User.builder()
+						.user_code(rs.getInt(1))
+						.username(rs.getString(2))
+						.password(rs.getString(3))
+						.name(rs.getNString(4))
+						.email(rs.getString(5))
+						.create_date(rs.getTimestamp(6).toLocalDateTime())
+						.update_date(rs.getTimestamp(7).toLocalDateTime())
+						.build();
+			}catch (SQLException e) {
+				System.out.println("해당 아이디의 유저 정보가 없습니다.");
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		
+		return user;
 	}
 }
 
