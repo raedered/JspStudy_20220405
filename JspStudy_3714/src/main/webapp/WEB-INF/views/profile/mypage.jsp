@@ -36,14 +36,14 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		const profileUpdateBtn = document.querySelector("profile-update-btn");
-		const passwordUpdateBnt = document.querySelector("password-update-btn");
+		const profileUpdateBtn = document.querySelector(".profile-update-btn");
+		const passwordUpdateBnt = document.querySelector(".password-update-btn");
 		
 		profileUpdateBtn.onclick = () => {
 			location.href = "/JspStudy_3714/profile/update";
 		}
-		passwordUpdateBtn.onclick = () => {
-			location.href = "/JspStudy_3714/profile/update/password";
+		passwordUpdateBnt.onclick = () => {
+			location.href = "/JspStudy_3714//profile/update/password";
 		}
 	</script>
 </body>

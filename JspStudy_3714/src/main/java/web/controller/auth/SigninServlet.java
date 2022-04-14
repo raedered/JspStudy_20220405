@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,10 +25,9 @@ public class SigninServlet extends HttpServlet {
 	private AuthService authService;
 	
 	@Override
-	public void init() throws ServletException {
-		DBConnectionMgr pool = DBConnectionMgr.getInstance();
-		AuthDao authDao = new AuthDaoImpl(pool);
-		authService = new AuthServiceImpl(authDao);
+	public void init(ServletConfig config) throws ServletException {
+		ServletContext servletContext = config.getServletContext();
+		authService = new AuthServiceImpl((AuthDao)servletContext.getAttribute("authDao"));
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
