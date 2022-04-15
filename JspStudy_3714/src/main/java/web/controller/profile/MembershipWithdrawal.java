@@ -11,48 +11,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import repository.AuthDao;
 import repository.UserDao;
 import repository.user.User;
-import web.service.AuthService;
-import web.service.AuthServiceImpl;
 import web.service.ProfileService;
 import web.service.ProfileServiceImpl;
 
-@WebServlet("/profile/update")
-public class profileUpdateServlet extends HttpServlet {
+@WebServlet("/profile/delete")
+public class MembershipWithdrawal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProfileService profileService;
-	private AuthService authService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		ServletContext servletContext = config.getServletContext();
 		profileService = new ProfileServiceImpl((UserDao)servletContext.getAttribute("userDao"));
-		authService = new AuthServiceImpl((AuthDao)servletContext.getAttribute("authDao"));
 	}
-
-
+     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/views/profile/profile-update.jsp").forward(request, response);
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//이름, 이메일 출력	
-		String name = request.getParameter("name");
-		String email = request.getParameter("email");
-		System.out.println("이름: " + name);
-		System.out.println("이메일: " + email);
-		
 		HttpSession session = request.getSession();
-		
-		User principalUser = (User) session.getAttribute("principal");
-		
-		boolean flag = profileService.updateProfile(principalUser.getUser_code(), name, email);
-		if(flag == true) {
-			response.sendRedirect("/JspStudy_3714/profile/mypage");
+		User principalUser = (User)session.getAttribute("principal");
+		boolean result = profileService.deleteUser(principalUser.getUser_code());
+		if(result == true) {
+			session.invalidate();
+			response.sendRedirect("/JspStudy_3714/auth/signin");
 		}
+		
 	}
 
 }
+
+
+
+
+
+

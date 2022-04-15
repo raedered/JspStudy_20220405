@@ -16,7 +16,7 @@ import repository.AuthDaoImpl;
 import repository.UserDao;
 import repository.UserDaoImpl;
 
-@WebFilter("/*")
+@WebFilter(filterName = "ServletContextInit")
 public class InitFilter implements Filter {
 	private DBConnectionMgr pool;
 	private AuthDao authDao;
